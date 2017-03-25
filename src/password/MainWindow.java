@@ -1,3 +1,4 @@
+package password;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

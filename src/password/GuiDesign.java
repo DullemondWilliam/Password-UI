@@ -1,3 +1,4 @@
+package password;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -46,7 +47,7 @@ public class GuiDesign {
     public static int[] colors = new int[3]; 
     public static int selectedColor =0;
     public int count2 = 0;
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField txtUsername;
 	
 	public static int passShape =0;
@@ -60,7 +61,7 @@ public class GuiDesign {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					GuiDesign window = new GuiDesign();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
