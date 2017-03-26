@@ -10,11 +10,11 @@ public class LogFile
 
 	private String m_fileName;
 	
-
+	// Constructor 
+	// Takes log filename
 	public LogFile( String fileName )
 	{
 		m_fileName = fileName;
-
 		try
 		{
 			String header = "\"time\",\"site\",\"user\",\"scheme\","
@@ -29,6 +29,7 @@ public class LogFile
 			System.out.println( e );
 	}
 	
+	//Write Data to File
 	public int recordData( String user, String mode, String event, String data )
 	{
 		String record = "";
@@ -56,6 +57,7 @@ public class LogFile
 		return 1;
 	}
 	
+	//Put current time in desired format
 	private String getTime()
 	{
 		Date date = new Date();

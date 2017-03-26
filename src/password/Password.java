@@ -11,7 +11,7 @@ public class Password {
 	public Color  m_colors[];
 	public Shapes m_shape;
 	
-	
+	// Constructor
 	public Password()
 	{
 	    m_pieceXCord = new int[ Definitions.TOTALENTRIES ];
@@ -19,6 +19,7 @@ public class Password {
 		m_colors = new Color[ Definitions.TOTALENTRIES ];
 	}
 	
+	//Create random values for this password
 	public int randomizePassword()
 	{
 		Random random = new Random();
@@ -41,8 +42,12 @@ public class Password {
 		return 1;
 	}
 	
-	public boolean matchPassword( Password pas )
+	// Check to See if this password equals another
+	// This is not entry order dependent 
+	public boolean equals( Password pas )
 	{
+		if( pas == null) 
+			return false;
 		int check = 0;
 		for(int i=0; i < Definitions.TOTALENTRIES; i++)
 		{
@@ -61,6 +66,19 @@ public class Password {
 			return true;
 		
 		return false;
+	}
+	
+	//Stringify the password
+	public String toString()
+	{
+		String out = "";
+		for( int i=0; i < Definitions.TOTALENTRIES; ++i )
+		{
+			out += m_colors[i].toString() + "( ";
+			out += m_pieceXCord[i] + ", ";
+			out += m_pieceYCord[i] + ") | ";
+		}
+		return out;
 	}
 }
  
