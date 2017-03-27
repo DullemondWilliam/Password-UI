@@ -24,17 +24,17 @@ public class Controller
 	
 	// Assign a new random password to this user
 	// Return the assigned password
-	public Password makeAPassword( String username )
+	public Password makeAPassword( String username, String system )
 	{
 		Password p = new Password();
 		log.recordData( username, "create", "Password", p.toString());
 		
-		m_passwords.put( username, p );
+		m_passwords.put( username+system, p );
 		return p;
 	}
 	
 	// Return a Given users Password
-	public Password getPassword( String username )
+	public Password getPassword( String username  )
 	{
 		return m_passwords.get( username );
 	}
@@ -42,16 +42,27 @@ public class Controller
 	// Check users Password against Stored password
 	// Wipes the password that was built
 	// returns result
-	public boolean attemptLogin( String username )
+	public boolean attemptLogin( String username, String system, boolean trial )
 	{
-		boolean result = m_beingBuilt.equals( m_passwords.get(username) ); 
+		boolean result = m_beingBuilt.equals( m_passwords.get(username+system) ); 
 		m_passwordProg = 0;
 		m_beingBuilt = null;
 		
-		if( result )
-			log.recordData( username, "enter", "goodLogin", "" );
+		
+		if( trial )
+		{
+			if( result )
+				log.recordData( username, "create", "goodLogin", "" );
+			else
+				log.recordData( username, "create", "badLogin", "" );
+		}
 		else
-			log.recordData( username, "enter", "badLogin", "" );
+		{
+			if( result )
+				log.recordData( username, "enter", "goodLogin", "" );
+			else
+				log.recordData( username, "enter", "badLogin", "" );
+		}
 		
 		return result;
 	}

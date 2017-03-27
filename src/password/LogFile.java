@@ -26,7 +26,9 @@ public class LogFile
 			writer.close();
 		}
 		catch( IOException e )
+		{
 			System.out.println( e );
+		}
 	}
 	
 	//Write Data to File
