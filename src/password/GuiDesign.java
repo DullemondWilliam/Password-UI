@@ -53,6 +53,7 @@ public class GuiDesign {
 	public static int passShape =0;
 	public static int[] passColors = new int[3];
 	public static Point[] passCoords = new Point[3];
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -786,13 +787,29 @@ public class GuiDesign {
 		springLayout.putConstraint(SpringLayout.SOUTH, buttonE1, 0, SpringLayout.SOUTH, buttonA1);
 		springLayout.putConstraint(SpringLayout.EAST, buttonE1, 0, SpringLayout.EAST, buttonE5);
 		frame.getContentPane().add(buttonE1);
+		
+		JButton btnStart = new JButton("Start");
+		springLayout.putConstraint(SpringLayout.WEST, btnStart, 0, SpringLayout.WEST, btnLogIn);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnStart, -10, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnStart, 0, SpringLayout.EAST, btnLogIn);
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		frame.getContentPane().add(btnStart);
+		
+		textField = new JTextField();
+		springLayout.putConstraint(SpringLayout.NORTH, textField, 0, SpringLayout.NORTH, button);
+		springLayout.putConstraint(SpringLayout.WEST, textField, 81, SpringLayout.WEST, frame.getContentPane());
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 	}
 	
 	public static void displayPassword(){
 		for(int i = 0; i<3; i++){
-			//Arrays.sort(colors); 
-			//System.out.print(colors[i] + " ");
-			//System.out.println(coords[i]);
+			Arrays.sort(colors); 
+			System.out.print(colors[i] + " ");
+			System.out.println(coords[i]);
 			generatePass();
 			System.out.println(IntStream.of(passColors).anyMatch(x -> x == colors[0]));
 		}
@@ -860,5 +877,4 @@ public class GuiDesign {
 		
 	return -1;	
 	}
-	
 }
