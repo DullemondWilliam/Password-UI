@@ -7,63 +7,123 @@ import password.Definitions.Shapes;
 
 public class Controller
 {
-	private LogFile log;
+	private static GuiDesign gui;
+	private static Controller controller;
 	
+	private LogFile log;	
 	private int m_passwordProg;
 	private Password m_beingBuilt;
+	private boolean lastPasswordRight;
+	
+	private boolean trialStage = true;
 	
 	private HashMap< String, Password > m_passwords;
 	
+	
+	public static void main()
+	{
+		System.out.println("Program has launched look up");
+		
+		//Probs start up the UI
+		//TODO Pass the controller over
+		controller = new Controller();
+		gui = new GuiDesign();
+			gui.frame.setVisible(true);
+		}
 	
 	//Constructor 
 	public Controller()
 	{
 		log = new LogFile( "logs.csv" );
 		m_passwords = new HashMap< String, Password >();
+		lastPasswordRight = false;
 	}
 	
-	// Assign a new random password to this user
-	// Return the assigned password
-	public Password makeAPassword( String username, String system )
+	//The Start Button was clicked
+	public void startClicked( String username )
 	{
-		Password p = new Password();
-		log.recordData( username, "create", "Password", p.toString());
+		Password pass = makeAPassword( username, "bank" );
 		
-		m_passwords.put( username+system, p );
-		return p;
+		trials( username, pass );
 	}
 	
-	// Return a Given users Password
-	public Password getPassword( String username  )
+	//Main Program feature
+	public void trials( String username, Password pass )
 	{
-		return m_passwords.get( username );
+		if( pass.doneTrials == false )
+		{
+			//TODO show password to user 
+		}
+		else if( pass.doneLogin == false && Definitions.PASSWORDWRONGATTEMPT < pass.failedLogins)
+		{
+			//TODO give feedback on false password
+		}
+		else
+		{
+			if(pass.system.equalsIgnoreCase("FaceBook"))
+			{
+				trials( username, makeAPassword( username, "Bank" ) );
+			}
+			else if(pass.system.equalsIgnoreCase("BanK"))
+			{
+				trials( username, makeAPassword( username, "email" ) );
+			}
+			else
+			{
+				//TODO Clear fields and tell the user to gtfo 
+			}
+			
+		}
+		
 	}
+
 	
 	// Check users Password against Stored password
 	// Wipes the password that was built
 	// returns result
-	public boolean attemptLogin( String username, String system, boolean trial )
+	public boolean attemptLogin( String username, String system )
 	{
 		boolean result = m_beingBuilt.equals( m_passwords.get(username+system) ); 
 		m_passwordProg = 0;
 		m_beingBuilt = null;
 		
+		Password pass = m_passwords.get(username+system);
 		
-		if( trial )
+		if( !pass.doneTrials )
 		{
 			if( result )
+			{
+				//TODO end trial and move to next
+				pass.doneTrials = true;
 				log.recordData( username, "create", "goodLogin", "" );
+			}
 			else
+			{
+				//TODO continue Trials
+				pass.trialsDone++;
 				log.recordData( username, "create", "badLogin", "" );
+			}
 		}
 		else
 		{
 			if( result )
+			{
+				//TODO End Login and Continue
 				log.recordData( username, "enter", "goodLogin", "" );
+				//TODO try the next System
+			}
 			else
+			{
+				pass.failedLogins++;
+				
+				{
+					//TODO Tell the User they suck and try the next system 
+				}
+				
 				log.recordData( username, "enter", "badLogin", "" );
+			}
 		}
-		
+		lastPasswordRight = result;
 		return result;
 	}
 	
@@ -87,5 +147,17 @@ public class Controller
 		m_beingBuilt.m_pieceYCord[ m_passwordProg ] = y;
 		
 		return ++m_passwordProg;
+	}
+	
+	// Assign a new random password to this user
+	// Return the assigned password
+	private Password makeAPassword( String username, String system )
+	{
+		Password p = new Password();
+		p.system = system;
+		
+		log.recordData( username, "create", "Password", p.toString());
+		m_passwords.put( username+system, p );
+		return p;
 	}
 }

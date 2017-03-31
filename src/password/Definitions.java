@@ -16,5 +16,8 @@ public class Definitions {
 	public static int TOTALYCORD   = 5;
 	
     public static int TOTALENTRIES = 3;
+    
+    public static int PASSWORDSHOWFOR = 3;
+    public static int PASSWORDWRONGATTEMPT = 3;
 	
 }
